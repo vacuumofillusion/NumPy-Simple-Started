@@ -376,21 +376,14 @@ def iterate_2(Z):
 示例
 （点击图片查看动画）
 
-<video width="320" height="202" controls>
-  <source src="movies/bacteria.mp4" type="video/mp4">
-</video>
+**细菌**
+![](movies/bacteria.gif)
 
-<br>
+**指纹**
+![](movies/fingerprint.gif)
 
-<video width="320" height="202" controls>
-  <source src="movies/fingerprint.mp4" type="video/mp4">
-</video>
-
-<br>
-
-<video width="320" height="202" controls>
-  <source src="movies/zebra.mp4" type="video/mp4">
-</video>
+**斑马**
+![](movies/zebra.gif)
 
 显然，你可能会认为我们需要两个数组，一个用于U，一个用于V。但由于U和V紧密相关，实际上使用单个数组可能会更好。Numpy通过[结构化数组](http://docs.scipy.org/doc/numpy/user/basics.rec.html)的概念允许我们这样做：
 
@@ -570,7 +563,6 @@ Z = np.random.random(1000)
 m = Z.mean()
 ```
 
-
 ### 学徒
 
 1. 考虑一个代表笛卡尔坐标的随机100x2矩阵，将其转换为极坐标
@@ -622,11 +614,9 @@ Z = np.zeros(10, dtype=[('position', [('x', float, 1),
 6. 考虑一个形状为(100,2)的随机向量，表示坐标，找出逐点之间的距离
 
 ```python
-# 注意：这里使用了10x2的随机矩阵作为示例，但题目中要求的是100x2
 Z = np.random.random((100,2))
 X, Y = Z[:,0], Z[:,1]
 D = np.sqrt((X[:,None] - X)**2 + (Y[:,None] - Y)**2)
-# 注意：这里使用了X[:,None]和Y[:,None]来扩展维度，以便进行逐点距离计算
 ```
 
 7. 生成一个类似二维高斯分布的通用数组
@@ -710,3 +700,70 @@ ones(shape, dtype=None, order='C')
 ## 快速参考
 
 ### 数据类型
+
+| 数据类型 | 描述 |
+|:--:|:--:|
+| bool | 作为字节存储的布尔值（True 或 False） |
+| int | 平台整数（通常是 int32 或 int64） |
+| int8 | 字节（-128 到 127） |
+| int16 | 整数（-32768 到 32767） |
+| int32 | 整数（-2147483648 到 2147483647） |
+| int64 | 整数（-9223372036854775808 到 9223372036854775807）注：原文本中的数值范围有误，已更正 |
+| uint8 | 无符号整数（0 到 255） |
+| uint16 | 无符号整数（0 到 65535） |
+| uint32 | 无符号整数（0 到 4294967295） |
+| uint64 | 无符号整数（0 到 18446744073709551615） |
+| float | float64 的简写。 |
+| float16 | 半精度浮点数：符号位，5位指数，10位尾数 |
+| float32 | 单精度浮点数：符号位，8位指数，23位尾数 |
+| float64 | 双精度浮点数：符号位，11位指数，52位尾数 |
+| complex | complex128 的简写。 |
+| complex64 | 复数，由两个 32 位浮点数表示 |
+| complex128 | 复数，由两个 64 位浮点数表示 |
+
+### 创建
+
+| 代码 | 结果 | | 代码 | 结果 |
+|:-:|:-:|:-:|:-:|:-:|
+|`Z = zeros(9)`|![](figures/create-zeros-1.png)||`Z = zeros((5,9))`|![](figures/create-zeros-2.png)|
+|`Z = ones(9)`|![](figures/create-ones-1.png)||`Z = ones((5,9))`|![](figures/create-ones-2.png)|
+|`Z = array( [0,0,0,0,0,0,0,0,0] )`|![](figures/create-list-1.png)||`Z = array( [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]])`|![](figures/create-list-2.png)|
+|`Z = arange(9)`|![](figures/create-arange-1.png)||`Z = arange(5*9).reshape(5,9)`|![](figures/create-arange-2.png)|
+|`Z = random.uniform(0,1,9)`|![](figures/create-uniform-1.png)||`Z = random.uniform(0,1,(5,9))`|![](figures/create-uniform-2.png)|
+
+### 重塑
+
+| 代码 | 结果 | | 代码 | 结果 |
+|:-:|:-:|:-:|:-:|:-:|
+|`Z[2,2] = 1`|![](figures/reshape-Z.png)||`Z = Z.reshape(1,12)`|![](figures/reshape-Z-reshape(1,12).png)|
+|`Z = Z.reshape(4,3)`|![](figures/reshape-Z-reshape(4,3).png)||`Z = Z.reshape(12,1)`|![](figures/reshape-Z-reshape(12,1).png)|
+|`Z = Z.reshape(6,2)`|![](figures/reshape-Z-reshape(6,2).png)||`Z = Z.reshape(2,6)`|![](figures/reshape-Z-reshape(2,6).png)|
+
+### 切片
+
+| 代码 | 结果 | | 代码 | 结果 |
+|:-:|:-:|:-:|:-:|:-:|
+|`Z`|![](figures/slice-Z.png)||`Z[...] = 1`|![](figures/slice-Z[...].png)|
+|`Z[1,1] = 1`|![](figures/slice-Z[1,1].png)||`Z[:,0] = 1`|![](figures/slice-Z[_,0].png)|
+|`Z[0,:] = 1`|![](figures/slice-Z[0,_].png)||`Z[2:,2:] = 1`|![](figures/slice-Z[2_,2_].png)|
+|`Z[:,::2] = 1`|![](figures/slice-Z[_,__2].png)||`Z[::2,:] = 1`|![](figures/slice-Z[__2,_].png)|
+|`Z[:-2,:-2] = 1`|![](figures/slice-Z[_-2,_-2].png)||`Z[2:4,2:4] = 1`|![](figures/slice-Z[2_4,2_4].png)|
+|`Z[::2,::2] = 1`|![](figures/slice-Z[__2,__2].png)||`Z[3::2,3::2] = 1`|![](figures/slice-Z[3__2,3__2].png)|
+
+### 广播
+
+| | | | | | | | | |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|![](figures/broadcast-1.1.png)|**+**|![](figures/broadcast-1.2.png)|**→**|![](figures/broadcast-1.1.png)|**+**|![](figures/broadcast-1.3.png)|**=**|![](figures/broadcast-1.4.png)|
+|![](figures/broadcast-2.1.png)|**+**|![](figures/broadcast-2.2.png)|**→**|![](figures/broadcast-2.1.png)|**+**|![](figures/broadcast-2.3.png)|**=**|![](figures/broadcast-2.4.png)|
+|![](figures/broadcast-3.1.png)|**+**|![](figures/broadcast-3.2.png)|**→**|![](figures/broadcast-3.1.png)|**+**|![](figures/broadcast-3.3.png)|**=**|![](figures/broadcast-3.4.png)|
+|![](figures/broadcast-4.1.png)|**+**|![](figures/broadcast-4.2.png)|**→**|![](figures/broadcast-4.3.png)|**+**|![](figures/broadcast-4.4.png)|**=**|![](figures/broadcast-4.5.png)|
+
+### 操作
+
+| 代码 | 之前 | 之后 |
+|:-:|:-:|:-:|
+|`Z = np.where(Z > 0.5, 0, 1)`|![](figures/ops-where-before.png)|![](figures/ops-where-after.png)|
+|`Z = np.maximum(Z, 0.5)`|![](figures/ops-maximum-before.png)|![](figures/ops-maximum-after.png)|
+|`Z = np.minimum(Z, 0.5)`|![](figures/ops-minimum-before.png)|![](figures/ops-minimum-after.png)|
+|`Z = np.sum(Z, axis=0)`|![](figures/ops-sum-before.png)|![](figures/ops-sum-after.png)|
