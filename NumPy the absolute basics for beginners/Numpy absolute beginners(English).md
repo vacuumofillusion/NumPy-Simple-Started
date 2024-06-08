@@ -1306,7 +1306,6 @@ Because access to additional information is so useful, IPython uses the `?` char
 
 For example:
 
-
 ```ipython
 In [0]: max?
 max(iterable, *[, default=obj, key=func]) -> value
